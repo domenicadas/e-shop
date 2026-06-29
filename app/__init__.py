@@ -12,6 +12,9 @@ def create_app():
     
     db.init_app(app)
     migrate.init_app(app, db)
+     
+    #Modelos
+    from app.models import usuario
 
     # Blueprints
     from app.blueprints.public import public_bp
