@@ -3,15 +3,15 @@ from .import admin_bp
 from flask_login import login_required
 from .decorators import admin_requerido
 
-@admin_bp.route('/index')
+@admin_bp.route('/dashboard')
 @login_required
 @admin_requerido
-def index():
+def dashboard():
     return render_template('admin/index.html')
 
 @admin_bp.route('/admin')
 def admin():
-    return render_template('admin/admin.html')
+    return render_template('admin/home.html')
 
 @admin_bp.route('/productos')
 def productos():
