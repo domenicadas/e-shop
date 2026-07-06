@@ -1,8 +1,8 @@
-"""modelo producto, categoria, pedido
+"""Migracion limpia inicial
 
-Revision ID: 420de8f2bfa6
-Revises: ad75d331ac3b
-Create Date: 2026-06-29 16:29:24.216143
+Revision ID: 70afc690d593
+Revises: 
+Create Date: 2026-07-05 18:48:06.589952
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '420de8f2bfa6'
-down_revision = 'ad75d331ac3b'
+revision = '70afc690d593'
+down_revision = None
 branch_labels = None
 depends_on = None
 
@@ -25,6 +25,17 @@ def upgrade():
     sa.Column('activa', sa.Boolean(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('nombre')
+    )
+    op.create_table('usuarios',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('nombre', sa.String(length=100), nullable=False),
+    sa.Column('email', sa.String(length=120), nullable=False),
+    sa.Column('password', sa.String(length=256), nullable=False),
+    sa.Column('rol', sa.Enum('cliente', 'admin'), nullable=True),
+    sa.Column('activo', sa.Boolean(), nullable=True),
+    sa.Column('creado_en', sa.DateTime(), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('email')
     )
     op.create_table('pedidos',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -68,5 +79,6 @@ def downgrade():
     op.drop_table('detalle_pedido')
     op.drop_table('productos')
     op.drop_table('pedidos')
+    op.drop_table('usuarios')
     op.drop_table('categorias')
     # ### end Alembic commands ###
