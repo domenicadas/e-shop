@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Panel de administración{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Panel de administración</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-success h-100">
+            <div class="card-body">
+                <h6 class="card-title">Ventas totales</h6>
+                <p class="card-text fs-3 mb-0">${{ '%.2f'|format(ventas_total) }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-primary h-100">
+            <div class="card-body">
+                <h6 class="card-title">Pedidos</h6>
+                <p class="card-text fs-3 mb-0">{{ total_pedidos }}</p>
+                <small>{{ pedidos_pendientes }} pendiente(s)</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-danger h-100">
+            <div class="card-body">
+                <h6 class="card-title">Productos con bajo stock</h6>
+                <p class="card-text fs-3 mb-0">{{ productos_bajo_stock|length }}</p>
+                <small>Stock ≤ {{ low_stock_threshold }} unidades</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h5>Productos con bajo stock</h5>
+{% if productos_bajo_stock %}
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th class="text-end">Stock</th>
+                <th class="text-end">Precio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos_bajo_stock %}
+            <tr>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.categoria.nombre if producto.categoria else '—' }}</td>
+                <td class="text-end">
+                    <span class="badge {{ 'bg-danger' if producto.stock == 0 else 'bg-warning text-dark' }}">
+                        {{ producto.stock }}
+                    </span>
+                </td>
+                <td class="text-end">${{ '%.2f'|format(producto.precio) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">No hay productos con bajo stock.</p>
+{% endif %}
+{% endblock %}

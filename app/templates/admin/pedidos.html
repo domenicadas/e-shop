@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Pedidos{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Pedidos</h1>
+
+{% if pedidos %}
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Cliente</th>
+                <th>Fecha</th>
+                <th class="text-end">Total</th>
+                <th>Estado</th>
+                <th class="text-center">Cambiar estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pedido in pedidos %}
+            <tr>
+                <td>{{ pedido.id }}</td>
+                <td>{{ pedido.cliente.nombre if pedido.cliente else '—' }}</td>
+                <td>{{ pedido.fecha.strftime('%d/%m/%Y %H:%M') }}</td>
+                <td class="text-end">${{ '%.2f'|format(pedido.total) }}</td>
+                <td>
+                    {% set colores = {
+                        'pendiente': 'bg-secondary',
+                        'pagado': 'bg-info text-dark',
+                        'enviado': 'bg-primary',
+                        'entregado': 'bg-success',
+                        'cancelado': 'bg-danger'
+                    } %}
+                    <span class="badge {{ colores.get(pedido.estado, 'bg-secondary') }}">
+                        {{ pedido.estado }}
+                    </span>
+                </td>
+                <td class="text-center">
+                    <form action="{{ url_for('admin.cambiar_estado_pedido', id=pedido.id) }}"
+                          method="post" class="d-flex gap-2 justify-content-center">
+                        <select name="estado" class="form-select form-select-sm w-auto">
+                            {% for estado in estados %}
+                            <option value="{{ estado }}" {% if estado == pedido.estado %}selected{% endif %}>
+                                {{ estado }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-check-lg"></i> Actualizar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">No hay pedidos registrados.</p>
+{% endif %}
+{% endblock %}

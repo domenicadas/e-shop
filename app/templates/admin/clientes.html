@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Clientes</h1>
+
+{% if clientes %}
+<div class="table-responsive">
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Registrado</th>
+                <th>Estado</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cliente in clientes %}
+            <tr>
+                <td>{{ cliente.nombre }}</td>
+                <td>{{ cliente.email }}</td>
+                <td>{{ cliente.creado_en.strftime('%d/%m/%Y') }}</td>
+                <td>
+                    {% if cliente.activo %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <form action="{{ url_for('admin.toggle_cliente', id=cliente.id) }}"
+                          method="post" class="d-inline">
+                        {% if cliente.activo %}
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Desactivar">
+                            <i class="bi bi-person-slash"></i> Desactivar
+                        </button>
+                        {% else %}
+                        <button type="submit" class="btn btn-sm btn-outline-success" title="Activar">
+                            <i class="bi bi-person-check"></i> Activar
+                        </button>
+                        {% endif %}
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-muted">No hay clientes registrados.</p>
+{% endif %}
+{% endblock %}
