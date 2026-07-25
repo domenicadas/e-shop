@@ -1,0 +1,82 @@
+:root {
+    --vino: #6d1b2b;
+    --vino-oscuro: #4a1220;
+    --vino-claro: #9c3a4d;
+    --fuente-titulos: 'Playfair Display', serif;
+    --fuente-texto: 'Lato', sans-serif;
+}
+
+body {
+    font-family: var(--fuente-texto);
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.nav-link {
+    font-family: var(--fuente-titulos);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.navbar.bg-dark,
+.bg-dark {
+    background-color: var(--vino) !important;
+}
+
+.navbar-brand:hover,
+.navbar-brand:focus {
+    color: var(--vino-claro) !important;
+}
+
+.btn-primary {
+    background-color: var(--vino);
+    border-color: var(--vino);
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: var(--vino-oscuro) !important;
+    border-color: var(--vino-oscuro) !important;
+}
+
+.btn-outline-primary {
+    color: var(--vino);
+    border-color: var(--vino);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:active {
+    background-color: var(--vino) !important;
+    border-color: var(--vino) !important;
+    color: #fff !important;
+}
+
+.text-primary {
+    color: var(--vino) !important;
+}
+
+a {
+    color: var(--vino);
+}
+
+a:hover {
+    color: var(--vino-oscuro);
+}
+
+.nav-link:hover,
+.nav-link:focus {
+    color: var(--vino-claro) !important;
+}
+
+.texto-vino {
+    color: var(--vino);
+}
+
+.footer-vino {
+    background-color: var(--vino-oscuro);
+}
