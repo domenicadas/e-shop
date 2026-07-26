@@ -1,26 +1,33 @@
 from app import create_app, db
-from app.models import Usuario, Categoria, Producto
+from app.models.categoria import Categoria
+from app.models.producto import Producto
+from app.models.usuario import Usuario
 
 app = create_app()
 
 with app.app_context():
-    # Categorías
-    cat1 = Categoria(nombre='Electrónica',  descripcion='Dispositivos y gadgets')
-    cat2 = Categoria(nombre='Ropa',         descripcion='Prendas de vestir')
-    cat3 = Categoria(nombre='Hogar',        descripcion='Artículos para el hogar')
-    db.session.add_all([cat1, cat2, cat3])
+    # 1. Limpiar la base de datos previa para evitar errores de duplicados
+    db.session.query(Producto).delete()
+    db.session.query(Categoria).delete()
+    db.session.query(Usuario).delete()
     db.session.commit()
 
-    # Productos
-    p1 = Producto(nombre='Audífonos Bluetooth', precio=49.99,
-                  stock=20, categoria_id=cat1.id)
-    p2 = Producto(nombre='Camiseta básica',     precio=12.50,
-                  stock=50, categoria_id=cat2.id)
-    p3 = Producto(nombre='Lámpara de escritorio', precio=25.00,
-                  stock=15, categoria_id=cat3.id)
-    db.session.add_all([p1, p2, p3])
+    # 2. Crear Categorías
+    cat1 = Categoria(nombre='Velas', descripcion='Velas aromáticas')
+    cat2 = Categoria(nombre='Complementos', descripcion='Todo lo necesario para tus velas')
+    db.session.add_all([cat1, cat2])
+    db.session.commit()
 
-    # Usuarios
+    # 3. Crear Productos
+    p1 = Producto(nombre='Vela de Vainilla', precio=14, stock=20, categoria_id=cat1.id)
+    p2 = Producto(nombre='Vela de Chocolate', precio=14, stock=50, categoria_id=cat1.id)
+    p3 = Producto(nombre='Vela de Frutos Rojos', precio=14, stock=20, categoria_id=cat1.id)
+    p4 = Producto(nombre='Vela de Lavanda', precio=14, stock=50, categoria_id=cat1.id)
+    p5 = Producto(nombre='Vela de Canela', precio=14, stock=50, categoria_id=cat1.id)
+    p6 = Producto(nombre='Kit de Cuidado de Velas', precio=25, stock=50, categoria_id=cat2.id)
+    db.session.add_all([p1, p2, p3, p4, p5, p6])
+
+    # 4. Crear Usuarios
     admin = Usuario(nombre='Administrador', email='admin@tienda.com', rol='admin')
     admin.set_password('admin123')
 
