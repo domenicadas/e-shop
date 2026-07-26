@@ -2,15 +2,15 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
-from app.config import Config
+from app.config import obtener_config
 
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager=LoginManager()
-     
+
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(obtener_config())
     
     db.init_app(app)
     migrate.init_app(app, db)

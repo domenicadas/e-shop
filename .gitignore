@@ -1,4 +1,43 @@
+# Entornos virtuales
 venv/
+env/
+.venv/
+
+# Variables de entorno
 .env
--
-__pycache__
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Bases de datos locales
+*.sqlite3
+*.db
+
+# Migraciones (mantener versions, ignorar cache)
+migrations/__pycache__/
+migrations/versions/__pycache__/
+
+# Logs
+*.log
+
+# Cache de tests / cobertura
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Editores / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Instance folder de Flask
+instance/
