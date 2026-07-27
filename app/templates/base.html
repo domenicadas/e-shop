@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}e-Commerce{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,30 +15,38 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url_for('public.home') }}">Parfum</a>
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="{{ url_for('public.tienda') }}">Tienda</a>
-                <a class="nav-link" href="{{ url_for('public.acerca_de') }}">Acerca de</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarPrincipal" aria-controls="navbarPrincipal"
+                    aria-expanded="false" aria-label="Mostrar menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarPrincipal">
+                <div class="navbar-nav ms-auto">
+                    <a class="nav-link" href="{{ url_for('public.tienda') }}">Tienda</a>
+                    <a class="nav-link" href="{{ url_for('public.acerca_de') }}">Acerca de</a>
 
-                {% if current_user.is_authenticated %}
-                    {% if current_user.es_admin() %}
-                        <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
-                        <a class="nav-link" href="{{ url_for('admin.productos') }}">Productos</a>
-                        <a class="nav-link" href="{{ url_for('admin.clientes') }}">Clientes</a>
-                        <a class="nav-link" href="{{ url_for('admin.pedidos') }}">Pedidos</a>
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.es_admin() %}
+                            <a class="nav-link" href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+                            <a class="nav-link" href="{{ url_for('admin.productos') }}">Productos</a>
+                            <a class="nav-link" href="{{ url_for('admin.clientes') }}">Clientes</a>
+                            <a class="nav-link" href="{{ url_for('admin.pedidos') }}">Pedidos</a>
+                        {% else %}
+                            <a class="nav-link" href="{{ url_for('public.mis_pedidos') }}">Mis pedidos</a>
+                        {% endif %}
+
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">Salir ({{ current_user.nombre }})</a>
                     {% else %}
-                        <a class="nav-link" href="{{ url_for('public.mis_pedidos') }}">Mis pedidos</a>
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
+                        <a class="nav-link" href="{{ url_for('auth.registro') }}">Registro</a>
+                        <a class="nav-link" href="{{ url_for('public.carrito') }}">🛒 Carrito
+                            {% set total_items=session.get('carrito',{}).values()|sum%}
+                            {%if total_items > 0%}
+                            {{total_items}} {% endif %}
+                        </a>
                     {% endif %}
-
-                    <a class="nav-link" href="{{ url_for('auth.logout') }}">Salir ({{ current_user.nombre }})</a>
-                {% else %}
-                    <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
-                    <a class="nav-link" href="{{ url_for('auth.registro') }}">Registro</a>
-                    <a class="nav-link" href="{{ url_for('public.carrito') }}">🛒 Carrito
-                        {% set total_items=session.get('carrito',{}).values()|sum%}
-                        {%if total_items > 0%}
-                        {{total_items}} {% endif %}
-                    </a>
-                {% endif %} </div>
+                </div>
+            </div>
         </div>
     </nav>
 
