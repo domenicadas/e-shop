@@ -8,13 +8,30 @@ db = SQLAlchemy()
 migrate = Migrate()
 login_manager=LoginManager()
 
+# Imágenes fijas por nombre de producto: viven en el repo (persisten en Railway),
+# a diferencia de las que se suben desde el panel de admin en producción.
+IMAGENES_FIJAS = {
+    'Vela de Vainilla': 'vainilla.png',
+    'Vela de Chocolate': 'chocolate.png',
+    'Vela de Frutos Rojos': 'Frutosrojos.png',
+    'Vela de Lavanda': 'lavanda_vela.png',
+    'Vela de Canela': 'canela.png',
+    'Kit de Cuidado de Velas': 'Kit.png',
+}
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(obtener_config())
-    
+
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
+
+    @app.context_processor
+    def utilidades_imagenes():
+        def imagen_producto(producto):
+            return IMAGENES_FIJAS.get(producto.nombre, producto.imagen)
+        return dict(imagen_producto=imagen_producto)
 
     #Configuración de login manager
     login_manager.login_view='auth.login'

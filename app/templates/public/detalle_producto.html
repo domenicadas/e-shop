@@ -26,8 +26,8 @@
 
   <!-- Imagen -->
   <div class="col-md-5">
-    {% if producto.imagen %}
-      <img src="{{ url_for('static', filename='img/' + producto.imagen) }}"
+    {% if imagen_producto(producto) %}
+      <img src="{{ url_for('static', filename='img/' + imagen_producto(producto)) }}"
            class="img-fluid rounded shadow"
            alt="{{ producto.nombre }}">
     {% else %}
@@ -127,8 +127,8 @@
   <div class="col">
     <div class="card h-100 shadow-sm">
 
-      {% if r.imagen %}
-        <img src="{{ url_for('static', filename='img/' + r.imagen) }}"
+      {% if imagen_producto(r) %}
+        <img src="{{ url_for('static', filename='img/' + imagen_producto(r)) }}"
              class="card-img-top"
              style="height: 160px; object-fit: cover;"
              alt="{{ r.nombre }}">
