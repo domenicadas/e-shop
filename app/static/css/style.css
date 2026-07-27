@@ -77,6 +77,29 @@ a:hover {
     color: var(--vino);
 }
 
+.list-group-item.active {
+    background-color: var(--vino) !important;
+    border-color: var(--vino) !important;
+}
+
+.list-group-item-action:hover {
+    color: var(--vino-oscuro);
+}
+
+.page-item.active .page-link {
+    background-color: var(--vino) !important;
+    border-color: var(--vino) !important;
+}
+
+.page-link {
+    color: var(--vino);
+}
+
+.page-link:hover,
+.page-link:focus {
+    color: var(--vino-oscuro);
+}
+
 .footer-vino {
     background-color: var(--vino-oscuro);
 }
